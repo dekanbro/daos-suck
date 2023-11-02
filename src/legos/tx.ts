@@ -16,6 +16,18 @@ export enum ProposalTypeIds {
 }
 
 export const APP_TX = {
+  MINT: {
+    id: 'Mint',
+    contract: APP_CONTRACT.DAOS_SUCK,
+    method: 'graff',
+    disablePoll: true,
+    args: [
+      '.formValues.reason'
+    ],
+    staticOverrides: {
+      value: 4200000000000000
+    }
+  },
   TEST_TX: buildMultiCallTX({
     id: "TEST_TX",
     JSONDetails: {

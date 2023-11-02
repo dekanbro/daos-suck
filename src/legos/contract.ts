@@ -1,6 +1,9 @@
 import { LOCAL_ABI } from "@daohaus/abis";
 import { ContractLego } from "@daohaus/utils";
 import { CONTRACT_KEYCHAINS } from "@daohaus/keychain-utils";
+import NftAbi from "../abis/DAOsSuck.json"
+import { TARGET_DAO } from "../targetDao";
+
 
 export const APP_CONTRACT: Record<string, ContractLego> = {
   POSTER: {
@@ -48,5 +51,11 @@ export const APP_CONTRACT: Record<string, ContractLego> = {
     contractName: "LOOT_ERC20",
     abi: LOCAL_ABI.LOOT,
     targetAddress: ".dao.sharesAddress",
+  },
+  DAOS_SUCK: {
+    type: "static",
+    contractName: "DAOS_SUCK",
+    abi: NftAbi,
+    targetAddress: TARGET_DAO.NFT_ADDRESS,
   },
 };

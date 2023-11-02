@@ -24,6 +24,7 @@ import { FormBuilder } from "@daohaus/form-builder";
 import { APP_FORM } from "../legos/forms";
 import { MolochFields } from "@daohaus/moloch-v3-fields";
 import { AppFieldLookup } from "../legos/legoConfig";
+import { useReasons } from "../hooks/useReasons";
 
 const LinkBox = styled.div`
   display: flex;
@@ -90,6 +91,10 @@ const graffiti = [
 export const Home = () => {
   const { address } = useDHConnect();
   const [show, setShow] = useState(false);
+  const { reasons } = useReasons({chainId: TARGET_DAO.CHAIN_ID});
+
+  const reasonsList = [...graffiti, ...reasons || []];
+
   const showBlob = () => {
     setShow(!show);
   };
@@ -192,10 +197,10 @@ export const Home = () => {
       <MarqueeWrapper3>
         <Marquee speed={75}>
           <div>
-            {graffiti
+            {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}> {g} </span>
+                <span key={idx}>/ {g} /</span>
               ))}
           </div>
         </Marquee>
@@ -203,10 +208,10 @@ export const Home = () => {
       <MarqueeWrapper2>
         <Marquee speed={100}>
           <div>
-            {graffiti
+            {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}> {g} </span>
+                <span key={idx}>/ {g} /</span>
               ))}
           </div>
         </Marquee>
@@ -214,10 +219,10 @@ export const Home = () => {
       <MarqueeWrapper1>
         <Marquee>
           <div>
-            {graffiti
+            {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}> {g} </span>
+                <span key={idx}>/ {g} /</span>
               ))}
           </div>
         </Marquee>
