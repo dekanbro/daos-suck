@@ -18,7 +18,7 @@ import {
 
 import { HausAnimated } from "../components/HausAnimated";
 import { TARGET_DAO } from "../targetDao";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConnectButton, useDHConnect } from "@daohaus/connect";
 import { FormBuilder } from "@daohaus/form-builder";
 import { APP_FORM } from "../legos/forms";
@@ -111,6 +111,13 @@ export const Home = () => {
   const seedParam = urlParams.get("seed");
 
   const reasonsList = [...graffiti, ...(reasons || [])];
+
+  useEffect(() => {
+    if (address) {
+      setShow(true);
+    }
+  }
+  , [address]);
 
   const handleDialog = () => {
     refetch();

@@ -9,19 +9,21 @@ export const HomeContainer = () => {
   const location = useLocation();
   const { publicClient, address } = useDHConnect();
 
-  const DHLayoutWrapper = styled(DHLayout)`
-margin-top: -200px;
-    `
+  const DHLayoutWrapper = styled.div`
+    margin-top: -190px;
+  `;
 
   return (
-    <DHLayoutWrapper navLinks={[]} pathname={location.pathname}>
-      <TXBuilder
-        publicClient={publicClient}
-        chainId={TARGET_DAO.CHAIN_ID}
-        appState={{ memberAddress: address }}
-      >
-        <Outlet />
-      </TXBuilder>
+    <DHLayoutWrapper>
+      <DHLayout navLinks={[]} pathname={location.pathname}>
+        <TXBuilder
+          publicClient={publicClient}
+          chainId={TARGET_DAO.CHAIN_ID}
+          appState={{ memberAddress: address }}
+        >
+          <Outlet />
+        </TXBuilder>
+      </DHLayout>
     </DHLayoutWrapper>
   );
 };
