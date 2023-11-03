@@ -22,14 +22,14 @@ jobs:
         with:
           node-version: 16
           cache: 'npm'
-      - run: rm -rf node_modules && npm install --frozen-lockfile
+      - run: rm -rf node_modules && yarn install --frozen-lockfile
       - name: Create env file
         run: |
           touch .env
           echo VITE_RIVET_KEY=${{ secrets.VITE_RIVET_KEY }}  >> .env
           echo VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID }}  >> .env
           echo VITE_OPTIMISM_RPC=${{ secrets.VITE_OPTIMISM_RPC }}  >> .env
-      - run: npm run build
+      - run: yarn build
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
