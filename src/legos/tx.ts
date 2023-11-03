@@ -1,6 +1,7 @@
 import { POSTER_TAGS } from "@daohaus/utils";
 import { buildMultiCallTX } from "@daohaus/tx-builder";
 import { APP_CONTRACT } from "./contract";
+import { TARGET_DAO } from "../targetDao";
 
 export enum ProposalTypeIds {
   Signal = "SIGNAL",
@@ -25,7 +26,7 @@ export const APP_TX = {
       '.formValues.reason'
     ],
     staticOverrides: {
-      value: 4200000000000000
+      value: TARGET_DAO.PRICE_PER_GRAFF
     }
   },
   TEST_TX: buildMultiCallTX({

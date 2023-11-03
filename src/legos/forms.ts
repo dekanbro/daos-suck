@@ -3,6 +3,7 @@ import { CustomFormLego } from "./legoConfig";
 import { APP_FIELD } from "./fields";
 import { APP_TX } from "./tx";
 import { TXLego } from "@daohaus/utils";
+import { TARGET_DAO } from "../targetDao";
 
 const PROPOSAL_SETTINGS_FIELDS = [FIELD.PROPOSAL_EXPIRY, FIELD.PROP_OFFERING];
 
@@ -25,7 +26,7 @@ export const APP_FORM: Record<string, CustomFormLego> = {
   },
   MINT_FORM: {
     id: "MINT_FORM",
-    description: "Mint and leave some graf (Optimism)",
+    description: `Mint and leave some graf (Optimism 0.00042 eth)`, // use target dao vars
     requiredFields: { reason: true },
     log: true,
     tx: APP_TX.MINT as any,
@@ -39,8 +40,8 @@ export const APP_FORM: Record<string, CustomFormLego> = {
           placeholder: "Why do DAOs suck?",
           rules: {
             maxLength: {
-              value: 42,
-              message: "Graff must be 42 characters or less",
+              value: TARGET_DAO.GRAFF_LENGTH,
+              message: `Graff must be ${TARGET_DAO.GRAFF_LENGTH.toString()} characters or less`,
             },
           },
         },

@@ -80,24 +80,40 @@ const Emph = styled.strong`
   color: hsl(39, 100%, 57%);
 `;
 
+const Reason = styled.span`
+  margin: 0 1rem;
+  text-transform: uppercase;
+`;
+
+const ReasonWrapper = styled.div`
+  span:nth-child(even) {
+    color: white;
+  }
+  span:nth-child(odd) {
+    color: hsl(39, 100%, 57%);
+  }
+`;
+
 const graffiti = [
-  "Hack the Planet",
-  "DAOs are the future",
-  "DAOs are the present",
+  "Hacks",
   "DAOs are the past",
-  "Teams waste time with silly experiments",
+  "Time wasted",
+  "Silly experiments",
 ];
 
 export const Home = () => {
   const { address } = useDHConnect();
   const [show, setShow] = useState(false);
-  const { reasons } = useReasons({chainId: TARGET_DAO.CHAIN_ID});
-  
+  const { reasons, refetch } = useReasons({ chainId: TARGET_DAO.CHAIN_ID });
+
   const urlParams = new URLSearchParams(window.location.search);
-  const seedParam = urlParams.get('seed');
+  const seedParam = urlParams.get("seed");
 
-  const reasonsList = [...graffiti, ...reasons || []];
+  const reasonsList = [...graffiti, ...(reasons || [])];
 
+  const handleDialog = () => {
+    refetch();
+  }
   const showBlob = () => {
     setShow(!show);
   };
@@ -109,29 +125,31 @@ export const Home = () => {
       </Button>
       {show && (
         <>
-          {!seedParam && (<Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">Graffiti</Button>
-            </DialogTrigger>
-            <DialogContent title="Mint">
-              <>
-                {!address ? (
-                  <ParMd>Connect to Optimism mint</ParMd>
-                ) : (
-                  <ParMd>Connected as</ParMd>
-                )}
-                <ConnectButton isSm={address ? true : false} />
+          {!seedParam && (
+            <Dialog onOpenChange={handleDialog}>
+              <DialogTrigger asChild>
+                <Button variant="outline">Graffiti</Button>
+              </DialogTrigger>
+              <DialogContent title="Mint">
+                <>
+                  {!address ? (
+                    <ParMd>Connect to Optimism mint</ParMd>
+                  ) : (
+                    <ParMd>Connected as</ParMd>
+                  )}
+                  <ConnectButton isSm={address ? true : false} />
 
-                {address && (
-                  <FormBuilder
-                    form={APP_FORM.MINT_FORM}
-                    targetNetwork={TARGET_DAO.CHAIN_ID}
-                    customFields={{ ...MolochFields, ...AppFieldLookup }}
-                  />
-                )}
-              </>
-            </DialogContent>
-          </Dialog>)}
+                  {address && (
+                    <FormBuilder
+                      form={APP_FORM.MINT_FORM}
+                      targetNetwork={TARGET_DAO.CHAIN_ID}
+                      customFields={{ ...MolochFields, ...AppFieldLookup }}
+                    />
+                  )}
+                </>
+              </DialogContent>
+            </Dialog>
+          )}
           <Blob>
             <BlobPar>
               <Emph>Oyez, Oyez, Oyez!</Emph> Gather 'round, one and all, for a
@@ -148,8 +166,8 @@ export const Home = () => {
               Be it known to the brave souls of the realm, a grand{" "}
               <Link href="https://twitter.com/DAOhaus">DAOhaus</Link> quest.{" "}
               <Emph>Season 3 Hackathon</Emph> is upon us, resplendent with{" "}
-              <Emph>rewards worth 2 ETH of gold pieces</Emph>, and the
-              promise of additional spoils from other esteemed sponsors, to be
+              <Emph>rewards worth 2 ETH of gold pieces</Emph>, and the promise
+              of additional spoils from other esteemed sponsors, to be
               distributed by the collective voice of the people, in a manner
               befitting our democratic principles.
             </BlobPar>
@@ -192,8 +210,11 @@ export const Home = () => {
               <Emph>
                 Join us, brave souls, as we embark on this noble adventure, for
                 the glory, the honor, and the triumph that await the valiant
-                champions of this digital realm! 
-                <Link href="https://discord.gg/daohaus">Join the Discord</Link> to get started.
+                champions of this digital realm! {""}
+                <Link href="https://discord.gg/daohaus">
+                  Join the Discord
+                </Link>{" "}
+                to get started.
               </Emph>
             </BlobPar>
           </Blob>
@@ -201,35 +222,41 @@ export const Home = () => {
       )}
       <MarqueeWrapper3>
         <Marquee speed={75}>
-          <div>
+          <ReasonWrapper>
             {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}>/ {g} /</span>
+                <Reason key={idx}>
+                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                </Reason>
               ))}
-          </div>
+          </ReasonWrapper>
         </Marquee>
       </MarqueeWrapper3>
       <MarqueeWrapper2>
         <Marquee speed={100}>
-          <div>
+          <ReasonWrapper>
             {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}>/ {g} /</span>
+                <Reason key={idx}>
+                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                </Reason>
               ))}
-          </div>
+          </ReasonWrapper>
         </Marquee>
       </MarqueeWrapper2>
       <MarqueeWrapper1>
         <Marquee>
-          <div>
+          <ReasonWrapper>
             {reasonsList
               .sort(() => (Math.random() > 0.5 ? 1 : -1))
               .map((g, idx) => (
-                <span key={idx}>/ {g} /</span>
+                <Reason key={idx}>
+                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                </Reason>
               ))}
-          </div>
+          </ReasonWrapper>
         </Marquee>
       </MarqueeWrapper1>
     </SingleColumnLayout>
