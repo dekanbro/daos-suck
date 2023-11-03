@@ -25,7 +25,7 @@ export const APP_FORM: Record<string, CustomFormLego> = {
   },
   MINT_FORM: {
     id: "MINT_FORM",
-    description: "Mint and leave some graf",
+    description: "Mint and leave some graf (Optimism)",
     requiredFields: { reason: true },
     log: true,
     tx: APP_TX.MINT as any,

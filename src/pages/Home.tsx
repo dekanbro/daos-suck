@@ -1,4 +1,4 @@
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Marquee from "react-fast-marquee";
@@ -92,6 +92,9 @@ export const Home = () => {
   const { address } = useDHConnect();
   const [show, setShow] = useState(false);
   const { reasons } = useReasons({chainId: TARGET_DAO.CHAIN_ID});
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const seedParam = urlParams.get('seed');
 
   const reasonsList = [...graffiti, ...reasons || []];
 
@@ -106,14 +109,14 @@ export const Home = () => {
       </Button>
       {show && (
         <>
-          <Dialog>
+          {!seedParam && (<Dialog>
             <DialogTrigger asChild>
               <Button variant="outline">Graffiti</Button>
             </DialogTrigger>
             <DialogContent title="Mint">
               <>
                 {!address ? (
-                  <ParMd>Connect to mint</ParMd>
+                  <ParMd>Connect to Optimism mint</ParMd>
                 ) : (
                   <ParMd>Connected as</ParMd>
                 )}
@@ -128,7 +131,7 @@ export const Home = () => {
                 )}
               </>
             </DialogContent>
-          </Dialog>
+          </Dialog>)}
           <Blob>
             <BlobPar>
               <Emph>Oyez, Oyez, Oyez!</Emph> Gather 'round, one and all, for a
@@ -143,8 +146,9 @@ export const Home = () => {
             </BlobPar>
             <BlobPar>
               Be it known to the brave souls of the realm, a grand{" "}
+              <Link href="https://twitter.com/DAOhaus">DAOhaus</Link> quest.{" "}
               <Emph>Season 3 Hackathon</Emph> is upon us, resplendent with{" "}
-              <Emph>rewards worth 5,000 gold pieces ($5k)</Emph>, and the
+              <Emph>rewards worth 2 ETH of gold pieces</Emph>, and the
               promise of additional spoils from other esteemed sponsors, to be
               distributed by the collective voice of the people, in a manner
               befitting our democratic principles.
@@ -188,7 +192,8 @@ export const Home = () => {
               <Emph>
                 Join us, brave souls, as we embark on this noble adventure, for
                 the glory, the honor, and the triumph that await the valiant
-                champions of this digital realm!
+                champions of this digital realm! 
+                <Link href="https://discord.gg/daohaus">Join the Discord</Link> to get started.
               </Emph>
             </BlobPar>
           </Blob>
