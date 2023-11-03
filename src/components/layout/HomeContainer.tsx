@@ -9,12 +9,14 @@ export const HomeContainer = () => {
   const { publicClient, address } = useDHConnect();
 
   return (
-    <TXBuilder
-      publicClient={publicClient}
-      chainId={TARGET_DAO.CHAIN_ID}
-      appState={{ memberAddress: address }}
-    >
-      <Outlet />
-    </TXBuilder>
+    <DHLayout navLinks={[]} pathname={location.pathname}>
+      <TXBuilder
+        publicClient={publicClient}
+        chainId={TARGET_DAO.CHAIN_ID}
+        appState={{ memberAddress: address }}
+      >
+        <Outlet />
+      </TXBuilder>
+    </DHLayout>
   );
 };

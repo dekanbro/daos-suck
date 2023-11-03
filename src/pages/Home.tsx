@@ -105,6 +105,7 @@ export const Home = () => {
   const { address } = useDHConnect();
   const [show, setShow] = useState(false);
   const { reasons, refetch } = useReasons({ chainId: TARGET_DAO.CHAIN_ID });
+  // const reasons: string[] = [];
 
   const urlParams = new URLSearchParams(window.location.search);
   const seedParam = urlParams.get("seed");
