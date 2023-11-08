@@ -7,10 +7,10 @@ import { parseAbiItem } from "viem";
 import { TARGET_DAO } from "../targetDao";
 
 type Reason = {
-    tokenId: number | null | undefined;
-    sender: `0x${string}` | undefined;
-    content: string | null | undefined;
-    };
+  tokenId: number | null | undefined;
+  sender: `0x${string}` | undefined;
+  content: string | null | undefined;
+};
 
 const fetchReasons = async ({
   chainId,
@@ -26,25 +26,30 @@ const fetchReasons = async ({
     chainId,
     rpcs,
   });
-  
-  const logs = await client.getLogs({
-    address: TARGET_DAO.NFT_ADDRESS,
-    event: parseAbiItem(
-      "event Graff(address indexed sender, uint256 tokenId, string content)"
-    ),
-    fromBlock: 0n,
-    toBlock: "latest",
-  });
+  try {
+    const logs = await client.getLogs({
+      address: TARGET_DAO.NFT_ADDRESS,
+      event: parseAbiItem(
+        "event Graff(address indexed sender, uint256 tokenId, string content)"
+      ),
+      fromBlock: 0n,
+      toBlock: "latest",
+    });
+    console.log("??", logs);
 
-  const reasons = logs.map((log) => {
-    const { sender , tokenId, content  } = log?.args;
-    // return `${tokenId}:${content} - ${truncateAddress(sender as `0x${string}`)}`;
-    return ` ${content} `;
-  });
+    const reasons: string[] = logs.map((log) => {
+      const { sender, tokenId, content } = log?.args;
+      // return `${tokenId}:${content} - ${truncateAddress(sender as `0x${string}`)}`;
+      return ` ${content} `;
+    });
 
-  return {
-    reasons,
-  };
+    return {
+      reasons,
+    };
+  } catch (err) {
+    console.log("Error", err);
+    throw new Error("Error");
+  }
 };
 
 export const useReasons = ({ chainId }: { chainId?: ValidNetwork }) => {

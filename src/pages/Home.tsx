@@ -104,7 +104,9 @@ const graffiti = [
 export const Home = () => {
   const { address } = useDHConnect();
   const [show, setShow] = useState(false);
-  const { reasons, refetch } = useReasons({ chainId: TARGET_DAO.CHAIN_ID });
+  const { reasons, isLoading, isLoadingError, refetch } = useReasons({
+    chainId: TARGET_DAO.CHAIN_ID,
+  });
   // const reasons: string[] = [];
 
   const urlParams = new URLSearchParams(window.location.search);
@@ -112,16 +114,11 @@ export const Home = () => {
 
   const reasonsList = [...graffiti, ...(reasons || [])];
 
-  useEffect(() => {
-    if (address) {
-      setShow(true);
-    }
-  }
-  , [address]);
-
-  const handleDialog = () => {
+  const handleChange = () => {
     refetch();
   }
+
+
   const showBlob = () => {
     setShow(!show);
   };
@@ -134,7 +131,7 @@ export const Home = () => {
       {show && (
         <>
           {!seedParam && (
-            <Dialog onOpenChange={handleDialog}>
+            <Dialog onOpenChange={handleChange}>
               <DialogTrigger asChild>
                 <Button variant="outline">Graffiti</Button>
               </DialogTrigger>
@@ -228,45 +225,49 @@ export const Home = () => {
           </Blob>
         </>
       )}
-      <MarqueeWrapper3>
-        <Marquee speed={75}>
-          <ReasonWrapper>
-            {reasonsList
-              .sort(() => (Math.random() > 0.5 ? 1 : -1))
-              .map((g, idx) => (
-                <Reason key={idx}>
-                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
-                </Reason>
-              ))}
-          </ReasonWrapper>
-        </Marquee>
-      </MarqueeWrapper3>
-      <MarqueeWrapper2>
-        <Marquee speed={100}>
-          <ReasonWrapper>
-            {reasonsList
-              .sort(() => (Math.random() > 0.5 ? 1 : -1))
-              .map((g, idx) => (
-                <Reason key={idx}>
-                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
-                </Reason>
-              ))}
-          </ReasonWrapper>
-        </Marquee>
-      </MarqueeWrapper2>
-      <MarqueeWrapper1>
-        <Marquee>
-          <ReasonWrapper>
-            {reasonsList
-              .sort(() => (Math.random() > 0.5 ? 1 : -1))
-              .map((g, idx) => (
-                <Reason key={idx}>
-                  / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
-                </Reason>
-              ))}
-          </ReasonWrapper>
-        </Marquee>
-      </MarqueeWrapper1>
+      {!isLoading && reasons?.length && (
+          <>
+            <MarqueeWrapper3>
+              <Marquee speed={75}>
+                <ReasonWrapper>
+                  {reasonsList
+                    .sort(() => (Math.random() > 0.5 ? 1 : -1))
+                    .map((g, idx) => (
+                      <Reason key={idx}>
+                        / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                      </Reason>
+                    ))}
+                </ReasonWrapper>
+              </Marquee>
+            </MarqueeWrapper3>
+            <MarqueeWrapper2>
+              <Marquee speed={100}>
+                <ReasonWrapper>
+                  {reasonsList
+                    .sort(() => (Math.random() > 0.5 ? 1 : -1))
+                    .map((g, idx) => (
+                      <Reason key={idx}>
+                        / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                      </Reason>
+                    ))}
+                </ReasonWrapper>
+              </Marquee>
+            </MarqueeWrapper2>
+            <MarqueeWrapper1>
+              <Marquee>
+                <ReasonWrapper>
+                  {reasonsList
+                    .sort(() => (Math.random() > 0.5 ? 1 : -1))
+                    .map((g, idx) => (
+                      <Reason key={idx}>
+                        / {g.substring(0, TARGET_DAO.GRAFF_LENGTH)} /
+                      </Reason>
+                    ))}
+                </ReasonWrapper>
+              </Marquee>
+            </MarqueeWrapper1>
+          </>
+        )}
     </SingleColumnLayout>
   );
 };
